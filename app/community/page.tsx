@@ -1,34 +1,29 @@
-'use client'
+"use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
-import { signOut } from "@/lib/supabase";
+// import AuthGuard from "@/components/auth/AuthGuard";
+// import CommunityHome from "@/components/CommunityHome";
+import CommunityHeader from "@/app/components/Layout/CommunityHeader";
+// import Sidebar from "@/components/Layout/Sidebar";
+import React, { useState } from "react";
 
 export default function CommunityPage() {
-  const { isAuthenticated, loading, user } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, loading, router]);
-
-  if (loading) return <p>Loading...</p>;
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
-      <div className="rounded-xl bg-white p-8 shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Welcome to Community 🎉</h1>
-        <p className="mb-4">Hello {user?.email}</p>
-        <button
-          onClick={signOut}
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-        >
-          Sign Out
-        </button>
+    // <AuthGuard>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <CommunityHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
+
+      <div className="flex">
+        {/* <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} /> */}
+
+        <main className="flex-1 lg:ml-80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* <CommunityHome /> */}
+          </div>
+        </main>
       </div>
     </div>
+    // </AuthGuard>
   );
 }
